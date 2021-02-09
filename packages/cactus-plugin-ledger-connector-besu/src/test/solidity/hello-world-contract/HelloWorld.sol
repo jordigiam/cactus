@@ -9,6 +9,7 @@ pragma solidity >=0.7.0;
 
 contract HelloWorld {
   string private name = "CaptainCactus";
+  mapping (address => uint256) deposits;
 
   function sayHello () public pure returns (string memory) {
     return 'Hello World!';
@@ -22,5 +23,10 @@ contract HelloWorld {
   function setName(string memory newName) public
   {
       name = newName;
+  }
+
+  function deposit() public payable {
+    require(msg.value > 0, "Value must be diferent of 0");
+    deposits[msg.sender] += msg.value;
   }
 }

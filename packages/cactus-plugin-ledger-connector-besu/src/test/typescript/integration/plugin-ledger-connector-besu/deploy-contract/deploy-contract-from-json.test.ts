@@ -202,6 +202,22 @@ test("deploys contract via .json file", async (t: Test) => {
     });
     t2.ok(getNameOut2, "getName() invocation #2 output is truthy OK");
 
+    const response = await connector.invokeContract({
+      contractAddress,
+      contractAbi: HelloWorldContractJson.abi,
+      invocationType: EthContractInvocationType.SEND,
+      methodName: "deposit",
+      params: [],
+      gas: 1000000,
+      web3SigningCredential: {
+        ethAccount: testEthAccount.address,
+        secret: testEthAccount.privateKey,
+        type: Web3SigningCredentialType.PRIVATEKEYHEX,
+      },
+      value: 10,
+    });
+    t2.ok(response, "deposit() payable invocation output is truthy OK");
+
     t2.end();
   });
 
@@ -247,6 +263,18 @@ test("deploys contract via .json file", async (t: Test) => {
       web3SigningCredential,
     });
     t2.ok(getNameOut2, "getName() invocation #2 output is truthy OK");
+
+    const response = await connector.invokeContract({
+      contractAddress,
+      contractAbi: HelloWorldContractJson.abi,
+      invocationType: EthContractInvocationType.SEND,
+      methodName: "deposit",
+      params: [],
+      gas: 1000000,
+      web3SigningCredential,
+      value: 10,
+    });
+    t2.ok(response, "deposit() payable invocation output is truthy OK");
 
     t2.end();
   });
